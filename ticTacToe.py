@@ -84,4 +84,3 @@ for g in range(0, 100):
         scores[1]+=1
 
 print(scores)
-print()
