@@ -3,7 +3,7 @@ __author__ = 'saverio'
 import numpy as np
 import random
 import time
-
+import matplotlib.pyplot as plt
 
 def create_board():
     return (np.zeros((3, 3)))
@@ -73,14 +73,55 @@ def play_game():
                 return (e)
     return (-1)
 
+def timeRun():
+    times=[]
+
+    scores=[0,0]
+    for g in range(0, 1000):
+        startTime=time.time()
+        winner=play_game()
+        endTime=time.time()
+        totalTime=endTime-startTime
+        times.append(totalTime)
+        if winner==1:
+            scores[0]+=1
+        if winner==2:
+            scores[1]+=1
 
 
+    plt.hist(times)
+    plt.show()
+    print(scores)
+
+
+def play_strategic_game():
+    board, winner = create_board(), 0
+    board[1,1] = 1
+    while winner == 0:
+        for player in [2,1]:
+            random_place(board, player)
+            winner = evaluate(board)
+            if winner != 0:
+                break
+    return winner
+
+play_strategic_game()
+
+
+times=[]
 scores=[0,0]
-for g in range(0, 100):
-    winner=play_game()
+
+for g in range(0, 1000):
+    startTime=time.time()
+    winner=play_strategic_game()
+    endTime=time.time()
+    totalTime=endTime-startTime
+    times.append(totalTime)
     if winner==1:
         scores[0]+=1
     if winner==2:
         scores[1]+=1
 
+plt.hist(scores)
+plt.show()
 print(scores)
